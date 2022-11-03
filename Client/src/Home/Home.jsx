@@ -1,6 +1,7 @@
 import React from 'react';
 
 import HeroSection from './Components/HeroSection/HeroSection';
+import About from './Components/AboutSection/About';
 
 import "./Home.scss";
 
@@ -13,6 +14,7 @@ const Home = () => {
         <>
             <div className="home_container">
                 <HeroSection />
+                <About />
             </div>
         </>
     )
