@@ -1,0 +1,77 @@
+.navbar_container {
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: center;
+
+    .navbar_box {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem;
+        align-items: center;
+
+        .logo_box {
+            display: flex;
+            font-size: 2rem;
+
+            span {
+                color: #3A56F1;
+            }
+        }
+
+        .link_box {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+
+            .links {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+
+                .link {
+                    font-size: 1.3rem;
+                    color: white;
+                    transition: all .5s;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #3A56F1;
+                    }
+                }
+            }
+
+            .btn_box {
+                .login_btn {
+                    border: 1px solid #3A56F1;
+                    border-radius: 5rem;
+                    padding: .5rem 2rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+                    position: relative;
+                    width: 70px;
+                    justify-content: center;
+
+                    span {
+                        position: absolute;
+                        transition: all 1s;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        right: 30px;
+                        top: 4px;
+                        bottom: 0;
+                    }
+
+                    &:hover {
+                        span {
+                            right: 25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
