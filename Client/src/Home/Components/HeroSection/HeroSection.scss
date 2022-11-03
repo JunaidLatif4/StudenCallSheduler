@@ -1,0 +1,46 @@
+.hero_section_container {
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: calc(100vh - 107px);
+box-sizing: border-box;
+    .hero_section_box {
+        width: 85%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+
+        .detail_box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+
+            .title {
+                font-size: 3rem;
+
+                span {
+                    color: brown;
+                }
+            }
+
+            .details {
+                font-size: 1.1rem;
+            }
+        }
+
+        .img_box {
+            width: -webkit-fill-available;
+            height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                width: 80%;
+                object-fit: cover;
+            }
+        }
+    }
+}
