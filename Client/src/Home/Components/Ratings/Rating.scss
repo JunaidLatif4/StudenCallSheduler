@@ -1,0 +1,49 @@
+.rating_container {
+    width: -webkit-fill-available;
+    padding: 2rem;
+    height: calc(100vh - 107px);
+    box-sizing: border-box;
+    background-color: #1E1E1E;
+
+    .heading {
+        color: #3A56F1;
+        font-size: 3rem;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 5rem;
+        margin-top: 2rem;
+    }
+
+    .rating_box {
+
+        .rating_crousal_box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 2.5rem 3rem;
+            border-radius: .5rem;
+            background-color: #2B2B2B;
+            width: 250px;
+            align-self: center;
+            justify-self: center;
+            margin: auto;
+            position: relative;
+
+            .quot {
+                position: absolute;
+                top: 40px;
+                left: 22px;
+                color: rgb(254, 108, 62);
+            }
+
+            .name {
+                color: rgb(254, 108, 62);
+                font-size: 1.1rem;
+            }
+
+            .details {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
