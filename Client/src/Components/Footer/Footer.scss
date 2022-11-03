@@ -1,0 +1,26 @@
+.footer_container{
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: center;
+
+    .footer_box{
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem;
+        align-items: center;
+
+        .copuright{
+
+        }
+        .social_links{
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+
+            .icon{
+                cursor: pointer;
+            }
+        }
+    }
+}
