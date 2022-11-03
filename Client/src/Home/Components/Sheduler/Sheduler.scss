@@ -1,4 +1,4 @@
-.about_container {
+.sheduler_container {
     width: -webkit-fill-available;
     display: flex;
     justify-content: center;
@@ -8,7 +8,6 @@
     padding: 2rem;
     height: calc(100vh - 107px);
     box-sizing: border-box;
-    background-color: #1E1E1E;
 
     .heading {
         color: #3A56F1;
@@ -16,7 +15,7 @@
         text-transform: uppercase;
     }
 
-    .about_box {
+    .sheduler_box {
         width: 85%;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -47,8 +46,8 @@
             justify-content: center;
             align-items: center;
 
-            video {
-                width: 100%;
+            img {
+                width: 80%;
                 object-fit: cover;
             }
         }

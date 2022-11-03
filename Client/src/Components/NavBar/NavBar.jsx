@@ -14,7 +14,7 @@ const NavBar = () => {
             <div className="navbar_container">
             <div className="navbar_box">
                 <div className="logo_box">
-                    <span>Call</span>Sheduller
+                    <span>Call</span>Sheduler
                 </div>
                 <div className="link_box">
                     <div className="links">
