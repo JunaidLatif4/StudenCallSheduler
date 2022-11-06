@@ -7,7 +7,7 @@ const FooterSectionModal = require("../Models/footerSection")
 
 const Router = express.Router()
 
-Router.get("/cms/hero", async (req, res) => {
+Router.get("/hero", async (req, res) => {
     try {
         const HeroData = await HeroSectionModal.findOne()
         if (HeroData) {
@@ -26,18 +26,17 @@ Router.get("/cms/hero", async (req, res) => {
         })
     }
 })
-Router.post("/cms/hero", uploader.single("img"), async (req, res) => {
+Router.post("/hero", uploader.single("img"), async (req, res) => {
     let { line1, line2, line3, details } = req.body
+    if (req.file) {
+        let imgLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
+        req.body.img = { link: imgLink }
+    } else {
+        req.body.img = JSON.parse(req.body.img)
+    }
     try {
 
-        const HeroData = new HeroSectionModal({
-            line1,
-            line2,
-            line3,
-            details,
-            img: req.file.path
-        })
-
+        const HeroData = new HeroSectionModal(req.body)
         await HeroData.save();
 
         res.status(200).json({
@@ -51,34 +50,32 @@ Router.post("/cms/hero", uploader.single("img"), async (req, res) => {
         })
     }
 })
-Router.patch("/cms/hero", uploader.single("img"), async (req, res) => {
-    let { line1, line2, line3, details } = req.body
+Router.patch("/hero/:id", uploader.single("img"), async (req, res) => {
+    let { id } = req.params
+    if (req.file) {
+        let imgLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
+        req.body.img = { link: imgLink }
+    } else {
+        req.body.img = JSON.parse(req.body.img)
+    }
     try {
 
-        const HeroData = new HeroSectionModal({
-            line1,
-            line2,
-            line3,
-            details,
-            img: req.file.path
-        })
-
-        await HeroData.save();
+        const HeroData = await HeroSectionModal.findByIdAndUpdate(id, req.body)
 
         res.status(200).json({
-            message: "HeroSection Data Added Success",
+            message: "HeroSection Data Updated Success",
             data: HeroData
         })
 
     } catch (err) {
         res.status(500).json({
-            message: "Error at Adding HeroSection Data"
+            message: "Error at Updating HeroSection Data"
         })
     }
 })
 
 
-Router.get("/cms/promotion", async (req, res) => {
+Router.get("/promotion", async (req, res) => {
     try {
         const PromotionData = await PromotionSectionModal.findOne()
         if (PromotionData) {
@@ -97,17 +94,16 @@ Router.get("/cms/promotion", async (req, res) => {
         })
     }
 })
-Router.post("/cms/promotion", uploader.single("vid"), async (req, res) => {
+Router.post("/promotion", uploader.single("vid"), async (req, res) => {
     let { line1, line2, line3, details } = req.body
+    if (req.file) {
+        let videoLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
+        req.body.video = { link: videoLink }
+    } else {
+        req.body.video = JSON.parse(req.body.video)
+    }
     try {
-        const PromotionData = new PromotionSectionModal({
-            line1,
-            line2,
-            line3,
-            details,
-            img: req.file.path
-        })
-
+        const PromotionData = new PromotionSectionModal(req.body)
         await PromotionData.save();
 
         res.status(200).json({
@@ -121,33 +117,31 @@ Router.post("/cms/promotion", uploader.single("vid"), async (req, res) => {
         })
     }
 })
-Router.patch("/cms/promotion", uploader.single("vid"), async (req, res) => {
-    let { line1, line2, line3, details } = req.body
+Router.patch("/promotion/:id", uploader.single("vid"), async (req, res) => {
+    let { id } = req.params
+    if (req.file) {
+        let videoLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
+        req.body.video = { link: videoLink }
+    } else {
+        req.body.video = JSON.parse(req.body.video)
+    }
     try {
-        const PromotionData = new PromotionSectionModal({
-            line1,
-            line2,
-            line3,
-            details,
-            img: req.file.path
-        })
-
-        await PromotionData.save();
+        const PromotionData = await PromotionSectionModal.findByIdAndUpdate(id , req.body)
 
         res.status(200).json({
-            message: "PromotionSection Data Added Success",
+            message: "PromotionSection Data Updated Success",
             data: PromotionData
         })
 
     } catch (err) {
         res.status(500).json({
-            message: "Error at Adding PromotionSection Data"
+            message: "Error at Updating PromotionSection Data"
         })
     }
 })
 
 
-Router.get("/cms/footer", async (req, res) => {
+Router.get("/footer", async (req, res) => {
     try {
         const footerData = await FooterSectionModal.findOne()
         if (footerData) {
@@ -166,7 +160,7 @@ Router.get("/cms/footer", async (req, res) => {
         })
     }
 })
-Router.post("/cms/footer", async (req, res) => {
+Router.post("/footer", async (req, res) => {
     let { instagram, twitter, facebook, linkdin } = req.body
     try {
         const footerData = new FooterSectionModal({
@@ -189,7 +183,7 @@ Router.post("/cms/footer", async (req, res) => {
         })
     }
 })
-Router.patch("/cms/footer:id", uploader.single("vid"), async (req, res) => {
+Router.patch("/footer:id", uploader.single("vid"), async (req, res) => {
     let { id } = req.params
     try {
         const footerData = await FooterSectionModal.findById(id, req.body)
@@ -204,3 +198,5 @@ Router.patch("/cms/footer:id", uploader.single("vid"), async (req, res) => {
         })
     }
 })
+
+module.exports = Router

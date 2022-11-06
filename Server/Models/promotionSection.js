@@ -15,7 +15,7 @@ const promotionSectionSchema = new mongoose.Schema({
         type: String,
     },
     video:{
-        type:String,
+        type:Object,
     }
 
 }, { timestamps: true });
