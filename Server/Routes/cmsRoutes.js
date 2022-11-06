@@ -4,6 +4,7 @@ const uploader = require("../Middleware/multer");
 const HeroSectionModal = require("../Models/heroSection")
 const PromotionSectionModal = require("../Models/promotionSection")
 const FooterSectionModal = require("../Models/footerSection")
+const ReviewSectionModal = require("../Models/reviewSection")
 
 const Router = express.Router()
 
@@ -177,7 +178,7 @@ Router.post("/footer", async (req, res) => {
         })
     }
 })
-Router.patch("/footer/:id", uploader.single("vid"), async (req, res) => {
+Router.patch("/footer/:id", async (req, res) => {
     let { id } = req.params
     try {
         const footerData = await FooterSectionModal.findByIdAndUpdate(id, req.body)
@@ -189,6 +190,52 @@ Router.patch("/footer/:id", uploader.single("vid"), async (req, res) => {
     } catch (err) {
         res.status(500).json({
             message: "Error at Updating FooterSection Data"
+        })
+    }
+})
+
+
+Router.get("/review", async (req, res) => {
+    try {
+        const reviewData = await ReviewSectionModal.find()
+        res.status(200).json({
+            message: "ReviewSection Data Found",
+            data: reviewData
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: "Error at getting ReviewSection Data"
+        })
+    }
+})
+Router.post("/review", async (req, res) => {
+    try {
+        const reviewData = new ReviewSectionModal(req.body)
+        await reviewData.save();
+
+        res.status(200).json({
+            message: "ReviewSection Data Added Success",
+            data: reviewData
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            message: "Error at Adding ReviewSection Data"
+        })
+    }
+})
+Router.patch("/review/:id", async (req, res) => {
+    let { id } = req.params
+    try {
+        const reviewData = await ReviewSectionModal.findByIdAndUpdate(id, req.body)
+        res.status(200).json({
+            message: "ReviewSection Data Updated Success",
+            data: reviewData
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            message: "Error at Updating ReviewSection Data"
         })
     }
 })

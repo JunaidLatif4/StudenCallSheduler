@@ -46,17 +46,11 @@ const FooterSection = () => {
 
   const AddSectionData = async () => {
     setLoading(true)
-    let formData = new FormData()
     let res;
     let data = enteredData
 
-    Object.keys(data).map((key) => {
-      if (key != "_id") {
-        formData.append(key, data[key])
-      }
-    })
     if (data._id) {
-      res = await UpdateFooterSectionDataAPI(data._id, formData)
+      res = await UpdateFooterSectionDataAPI(data._id, data)
       if (res.error != null) {
         toast.error(res.error, {
           position: "top-right",
@@ -80,7 +74,7 @@ const FooterSection = () => {
         gettingHeroSectionData()
       }
     } else {
-      res = await AddFooterSectionDataAPI(formData)
+      res = await AddFooterSectionDataAPI(data)
       if (res.error != null) {
         toast.error(res.error, {
           position: "top-right",

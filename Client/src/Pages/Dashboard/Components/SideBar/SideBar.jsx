@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 import Union from "../../../../Assets/Union.png"
 import Logo from "../../../../Assets/logo.png"
-import { RiCarLine } from 'react-icons/ri';
-import machine from "../../../../Assets/machine.png"
+import { MdReviews } from 'react-icons/md';
 import { GiCartwheel } from 'react-icons/gi';
-import { GiShoppingBag } from 'react-icons/gi';
+import { AiFillSchedule } from 'react-icons/ai';
 
 import "./SideBar.scss"
 
@@ -26,13 +25,13 @@ const SideBar = () => {
                         <img src={Union} alt="" />
                         <p>Dashboard</p>
                     </div>
-                    <div className="link" onClick={() => history("/dashboard/addcar")}>
-                        <RiCarLine className='icon' />
-                        <p>Add Car</p>
+                    <div className="link" onClick={() => history("/dashboard/reviews")}>
+                        <MdReviews className='icon' />
+                        <p>Reviews</p>
                     </div>
-                    <div className="link" onClick={() => history("/dashboard/products")}>
-                        <GiShoppingBag className='icon' />
-                        <p>Available Spareparts</p>
+                    <div className="link" onClick={() => history("/dashboard/schedules")}>
+                        <AiFillSchedule className='icon' />
+                        <p>Schedules</p>
                     </div>
                     <div className="link" onClick={() => history("/dashboard/addproduct")}>
                         <GiCartwheel className='icon' />

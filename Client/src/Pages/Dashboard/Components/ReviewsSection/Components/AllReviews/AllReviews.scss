@@ -1,0 +1,14 @@
+.allreviews_container {
+    margin: 1rem;
+    padding-bottom: 30px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .title,
+    .add_icon {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+}
