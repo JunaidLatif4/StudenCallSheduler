@@ -65,9 +65,9 @@ const PromotionSection = () => {
     let res;
     let data = enteredData
 
-    if (data.img && data.img.file) {
+    if (data.video && data.video.file) {
       formData.append("video", data.video.file)
-      data.img = true
+      data.video = true
     }
     Object.keys(data).map((key) => {
       if (key != "_id") {

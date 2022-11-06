@@ -138,4 +138,72 @@ const UpdatePromotionSectionDataAPI = async (id, data) => {
 
 
 
-export { GetHeroSectionDataAPI, AddHeroSectionDataAPI, UpdateHeroSectionDataAPI, GetPromotionSectionDataAPI, AddPromotionSectionDataAPI, UpdatePromotionSectionDataAPI }
+const GetFooterSectionDataAPI = async () => {
+    let resolved = {
+        data: null,
+        error: null
+    }
+
+    try {
+        const res = await axios({
+            url: "api/cms/footer",
+            method: 'GET'
+        })
+        resolved.data = res.data
+    } catch (err) {
+        if (err.response) {
+            resolved.error = err.response.data.message
+        } else {
+            resolved.error = "SomeThing Went Wrong"
+        }
+    }
+    return resolved
+}
+const AddFooterSectionDataAPI = async (data) => {
+    let resolved = {
+        data: null,
+        error: null
+    }
+
+    try {
+        const res = await axios({
+            url: "api/cms/footer",
+            method: 'POST',
+            data
+        })
+        resolved.data = res.data
+    } catch (err) {
+        if (err.response) {
+            resolved.error = err.response.data.message
+        } else {
+            resolved.error = "SomeThing Went Wrong"
+        }
+    }
+    return resolved
+}
+const UpdateFooterSectionDataAPI = async (id, data) => {
+    let resolved = {
+        data: null,
+        error: null
+    }
+
+    try {
+        const res = await axios({
+            url: `api/cms/footer/${id}`,
+            method: 'PATCH',
+            data
+        })
+        resolved.data = res.data
+    } catch (err) {
+        if (err.response) {
+            resolved.error = err.response.data.message
+        } else {
+            resolved.error = "SomeThing Went Wrong"
+        }
+    }
+    return resolved
+}
+
+
+
+export { GetHeroSectionDataAPI, AddHeroSectionDataAPI, UpdateHeroSectionDataAPI, GetPromotionSectionDataAPI, AddPromotionSectionDataAPI, UpdatePromotionSectionDataAPI, GetFooterSectionDataAPI, AddFooterSectionDataAPI, UpdateFooterSectionDataAPI }

@@ -94,7 +94,7 @@ Router.get("/promotion", async (req, res) => {
         })
     }
 })
-Router.post("/promotion", uploader.single("vid"), async (req, res) => {
+Router.post("/promotion", uploader.single("video"), async (req, res) => {
     let { line1, line2, line3, details } = req.body
     if (req.file) {
         let videoLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
@@ -117,7 +117,7 @@ Router.post("/promotion", uploader.single("vid"), async (req, res) => {
         })
     }
 })
-Router.patch("/promotion/:id", uploader.single("vid"), async (req, res) => {
+Router.patch("/promotion/:id", uploader.single("video"), async (req, res) => {
     let { id } = req.params
     if (req.file) {
         let videoLink = `${req.protocol}://${req.headers.host}/${req.file.path}`
@@ -126,7 +126,7 @@ Router.patch("/promotion/:id", uploader.single("vid"), async (req, res) => {
         req.body.video = JSON.parse(req.body.video)
     }
     try {
-        const PromotionData = await PromotionSectionModal.findByIdAndUpdate(id , req.body)
+        const PromotionData = await PromotionSectionModal.findByIdAndUpdate(id, req.body)
 
         res.status(200).json({
             message: "PromotionSection Data Updated Success",
@@ -163,13 +163,7 @@ Router.get("/footer", async (req, res) => {
 Router.post("/footer", async (req, res) => {
     let { instagram, twitter, facebook, linkdin } = req.body
     try {
-        const footerData = new FooterSectionModal({
-            instagram,
-            twitter,
-            facebook,
-            linkdin,
-        })
-
+        const footerData = new FooterSectionModal(req.body)
         await footerData.save();
 
         res.status(200).json({
@@ -183,18 +177,18 @@ Router.post("/footer", async (req, res) => {
         })
     }
 })
-Router.patch("/footer:id", uploader.single("vid"), async (req, res) => {
+Router.patch("/footer/:id", uploader.single("vid"), async (req, res) => {
     let { id } = req.params
     try {
-        const footerData = await FooterSectionModal.findById(id, req.body)
+        const footerData = await FooterSectionModal.findByIdAndUpdate(id, req.body)
         res.status(200).json({
-            message: "FooterSection Data Added Success",
+            message: "FooterSection Data Updated Success",
             data: footerData
         })
 
     } catch (err) {
         res.status(500).json({
-            message: "Error at Adding FooterSection Data"
+            message: "Error at Updating FooterSection Data"
         })
     }
 })
