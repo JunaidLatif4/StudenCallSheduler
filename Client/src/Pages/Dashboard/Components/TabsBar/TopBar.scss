@@ -1,0 +1,39 @@
+.topbar_container {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #DBDBDB;
+    margin-top: 1rem;
+    align-items: center;
+    padding: 0 2rem;
+    font-family: 'Outfit', sans-serif;
+    width: -webkit-fill-available;
+
+    .tabs_box {
+        display: flex;
+        gap: 2rem;
+
+        .tab {
+            font-size: 20px;
+            font-weight: 600;
+            color: #606C80;
+            // color: #274C7E;
+            padding: 1.3rem .3rem;
+            // border-bottom: 2px solid #274C7E;
+            margin-bottom: -2px;
+            cursor: pointer;
+        }
+
+    }
+
+    .action_box {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        .action {
+            cursor: pointer;
+            color: #606C80;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+    }
+}

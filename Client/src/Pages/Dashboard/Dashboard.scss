@@ -1,0 +1,13 @@
+.dashboard_container{
+    display: grid;
+    grid-template-columns: 300px auto;
+    font-family: 'Outfit', sans-serif;
+    gap: 2rem;
+    background-color: whitesmoke;
+    height: 100vh;
+    overflow: hidden;
+
+    @media only screen and (max-width:500px) {
+        display: block;
+    }
+}

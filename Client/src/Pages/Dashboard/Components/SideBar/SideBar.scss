@@ -1,0 +1,61 @@
+.sidebar_container {
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3rem;
+    padding-bottom: 1rem;
+    background-color: #FFFFFF;
+    border-right: 1px solid #DBDBDB;
+    box-shadow: 2px 4px 12px rgba(96, 108, 128, 0.12);
+    font-family: 'Outfit', sans-serif;
+
+    @media only screen and (max-width:500px) {
+        display: none;
+    }
+
+    .logo_box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        img {
+            width: 75px;
+            height: 90px;
+            object-fit: cover;
+        }
+
+    }
+
+    .links_box {
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+
+        .link {
+            display: flex;
+            gap: .8rem;
+            align-items: center;
+            cursor: pointer;
+
+            .icon {
+                font-size: 24px;
+                color: #0c4d7e;
+            }
+
+            p {
+                font-size: 15px;
+            }
+        }
+
+        .link:hover {
+            color: goldenrod;
+        }
+
+
+    }
+}

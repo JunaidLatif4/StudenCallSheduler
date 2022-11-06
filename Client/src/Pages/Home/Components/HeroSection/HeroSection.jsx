@@ -1,20 +1,19 @@
 import React from 'react'
 
 import { AiFillCaretRight } from "react-icons/ai";
-import IMG from "../../../Assets/img.png"
+import IMG from "../../../../Assets/img.png"
 
-import "./Sheduler.scss"
-
-
+import "./HeroSection.scss"
 
 
 
-const Sheduler = () => {
+
+
+const HeroSection = () => {
     return (
         <>
-            <div className="sheduler_container">
-                <div className="heading">SHEDULE A CALL</div>
-                <div className="sheduler_box">
+            <div className="hero_section_container">
+                <div className="hero_section_box">
                     <div className="detail_box">
                         <div className="title">
                             India’s most active student community with
@@ -39,4 +38,4 @@ const Sheduler = () => {
     )
 }
 
-export default Sheduler
+export default HeroSection
