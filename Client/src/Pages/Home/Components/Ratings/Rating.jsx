@@ -5,6 +5,8 @@ import "react-multi-carousel/lib/styles.css";
 
 import { ImQuotesLeft } from "react-icons/im"
 
+import { useSelector } from 'react-redux';
+
 import "./Rating.scss"
 
 
