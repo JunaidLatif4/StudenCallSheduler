@@ -48,3 +48,23 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.MuiDialog-paper{
+  background-color: #2B2B2B !important;
+  padding: 2rem !important;
+  color: white !important;
+
+  .signup_container{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    input{
+      background-color: transparent;
+      color: #3A56F1;
+      &:focus{
+        background-color: transparent;
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 
 import { AiFillCaretRight } from "react-icons/ai";
+import { FaUserAlt } from "react-icons/fa"
 
 import "./NavBar.scss"
 
@@ -12,30 +14,115 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { TextField } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
 
 // ***** mobile input ********
 
 
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+// import 'react-phone-input-2/lib/style.css'
+import 'react-phone-input-2/lib/bootstrap.css'
 
 
 
+const PhoneComponet = ({ enteredData, setEnteredData, genrateOtp }) => {
 
+    const enteringData = (number) => {
+        setEnteredData((preVal) => {
+            return {
+                ...preVal,
+                phone: number
+            }
+        })
+    }
 
+    return (
+        <>
+            <DialogTitle id="alert-dialog-title">
+                {"Sign in to continue"}
+            </DialogTitle>
+            <PhoneInput
+                onlyCountries={['in']}
+                country={"in"}
+                countryCodeEditable={false}
+                value={enteredData.phone}
+                onChange={(phone) => enteringData(phone)}
+            />
+            <Button fullWidth className='btn' variant="contained" onClick={genrateOtp}> Next </Button>
+        </>
+    )
+}
+const OtpComponet = ({ enteredData, setEnteredData, login }) => {
+
+    const enteringData = (event) => {
+        let { name, value } = event.target;
+        setEnteredData((preVal) => {
+            return {
+                ...preVal,
+                otp: value
+            }
+        })
+    }
+
+    return (
+        <>
+            <DialogTitle id="alert-dialog-title">
+                {"Enter OTP to continue"}
+            </DialogTitle>
+            <TextField
+                value={enteredData.otp}
+                placeholder="OTP"
+                onChange={enteringData}
+            />
+            <Button fullWidth className='btn' variant="contained" onClick={login}> Next </Button>
+        </>
+    )
+}
 
 const NavBar = () => {
+    let Navigate = useNavigate()
+
+    const token = localStorage.getItem("token")
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [enteredData, setEnteredData] = useState({
+        phone: "",
+        otp: ""
+    });
+    const [position, setPosition] = useState("phone")
 
     const [open, setOpen] = React.useState(false);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
 
+    const genrateOtp = () => {
+        setPosition("otp")
+    }
+    const login = () => {
+        localStorage.setItem("token", "temp_token")
+        window.location.href = "/"
+    }
+
+
+    const openMenu = Boolean(anchorEl);
+    const handleClickMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const logOut = () => {
+        localStorage.clear()
+        window.location.href = "/"
+    }
 
     return (
         <>
@@ -52,35 +139,54 @@ const NavBar = () => {
                             <div className="link">Reviews</div>
                         </div>
                         <div className="btn_box">
-                            <div className="login_btn" onClick={handleClickOpen}>
-                                LogIn <span> <AiFillCaretRight className='icon' /></span>
-                            </div>
+                            {
+                                token ?
+                                    <>
+                                        <IconButton
+                                            id="basic-button"
+                                            aria-controls={openMenu ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={openMenu ? 'true' : undefined}
+                                            onClick={handleClickMenu}
+                                        >
+                                            <FaUserAlt color='white' />
+                                        </IconButton>
+                                        <Menu
+                                            id="basic-menu"
+                                            anchorEl={anchorEl}
+                                            open={openMenu}
+                                            onClose={handleCloseMenu}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'basic-button',
+                                            }}
+                                        >
+                                            <MenuItem onClick={logOut}>Logout</MenuItem>
+                                        </Menu>
+                                    </>
+                                    :
+                                    <div className="login_btn" onClick={handleClickOpen}>
+                                        LogIn <span> <AiFillCaretRight className='icon' /></span>
+                                    </div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-
             <div>
-                <Button variant="" onClick={handleClickOpen}>
-                    Open alert dialog
-                </Button>
                 <Dialog
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">
-                        {"Sign in to continue"}
-                    </DialogTitle>
-
-
-                    <PhoneInput
-                        country={'us'}
-                    />
-                    <DialogActions>
-                        <Button variant="contained"  onClick={handleClose} >Contained</Button>
-                    </DialogActions>
+                    <div className="signup_container">
+                        {
+                            position == "phone" ?
+                                <PhoneComponet enteredData={enteredData} setEnteredData={setEnteredData} genrateOtp={genrateOtp} />
+                                :
+                                <OtpComponet enteredData={enteredData} setEnteredData={setEnteredData} login={login} />
+                        }
+                    </div>
                 </Dialog>
             </div>
         </>

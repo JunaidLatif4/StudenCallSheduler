@@ -2,12 +2,17 @@ import React from 'react'
 
 import VIDEO from "../../../../Assets/video.mp4"
 
+import { useSelector } from "react-redux"
+
 import "./About.scss"
 
 
 
 
 const About = () => {
+
+    const PromotionSectionData = useSelector((state) => state.PromotionSectionData)
+
     return (
         <>
             <div className="about_container">
@@ -20,12 +25,12 @@ const About = () => {
                     </div>
                     <div className="detail_box">
                         <div className="title">
-                            India’s most active student community with
-                            <span> 100,000+ </span>
-                            members.
+                            {PromotionSectionData?.line1 || "India’s most active student community with"}
+                            <span> {PromotionSectionData?.line2 || "100,000+"}  </span>
+                            {PromotionSectionData?.line3 || "members."}
                         </div>
                         <div className="details">
-                            Learn from experts and network through events, join clubs and learn real life skills, hang out on our discord server to make new friends and have fun!
+                            {PromotionSectionData?.details || "Learn from experts and network through events, join clubs and learn real life skills, hang out on our discord server to make new friends and have fun!"}
                         </div>
                         <div className="btn_box">
                         </div>
