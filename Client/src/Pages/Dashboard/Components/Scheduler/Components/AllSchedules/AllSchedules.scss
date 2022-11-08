@@ -6,6 +6,12 @@
     flex-direction: column;
     gap: 2rem;
 
+    .schedule_box{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        
+    }
     .title,
     .add_icon {
         font-size: 2rem;

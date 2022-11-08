@@ -17,9 +17,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 
-import { AddReviewDataAPI, GetReviewDataAPI, UpdateReviewDataAPI } from "../../../../../../API/Reviews";
+import { GetInstitutesDataAPI, AddInstituteDataAPI, GetSchedulesDataAPI } from "../../../../../../API/Schedules";
 import { toast } from "react-toastify"
 
 import "./AllSchedules.scss"
@@ -49,20 +49,39 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function createData(date, name, details) {
-    return { date, name, details };
+function createInstituteData(date, name) {
+    return { date, name };
+}
+function createScheduleData(date, name) {
+    return { date, name };
 }
 
 const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
 
     const [fullPageLoading, setFullPageLoading] = useState(true)
     const [loading, setLoading] = useState(false)
-    const [rows, setRows] = useState([])
-    const [reviewData, setReviewData] = useState(null)
 
-    const gettingReviewSectionData = async () => {
+    const [instituteRows, setInstituteRows] = useState([])
+    const [instituteData, setInstituteData] = useState(null)
+
+    const [schedulesRows, setSchedulesRows] = useState([])
+    const [scheduleData, setScheduleData] = useState(null)
+
+    const [openNewInstituteModal, setOpenNewInstituteModal] = useState(false)
+    const [newInstitute, setNewInstitute] = useState("")
+    const enteringNewInstitute = (event) => {
+        setNewInstitute(event.target.value)
+    }
+    const handleCloseNewInstituteModal = () => {
+        setOpenNewInstituteModal(false)
+    }
+    const saveInstitute = async () => {
+
+    }
+
+    const gettingInstituteData = async () => {
         setFullPageLoading(true)
-        const res = await GetReviewDataAPI()
+        const res = await GetInstitutesDataAPI()
         setFullPageLoading(false)
         if (res.error != null) {
             toast.error(res.error, {
@@ -75,23 +94,52 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                 progress: undefined,
             });
         } else {
-            setReviewData(res.data.data)
+            setInstituteData(res.data.data)
+        }
+    }
+    const gettingSchedulesData = async () => {
+        setFullPageLoading(true)
+        const res = await GetSchedulesDataAPI()
+        setFullPageLoading(false)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            setScheduleData(res.data.data)
         }
     }
 
     useEffect(() => {
-        gettingReviewSectionData()
+        gettingInstituteData()
+        gettingSchedulesData()
     }, [])
     useEffect(() => {
-        if (reviewData && reviewData.length >= 1) {
-            let rowData = reviewData.map((data) => {
+        if (instituteData && instituteData.length >= 1) {
+            let rowData = instituteData.map((data) => {
                 return (
-                    createData(data?.createdAt.substring(0, 10), data.name, data.details)
+                    createInstituteData(data?.createdAt.substring(0, 10), data.name)
                 )
             })
-            setRows(rowData)
+            setInstituteRows(rowData)
         }
-    }, [reviewData])
+    }, [instituteData])
+    useEffect(() => {
+        if (scheduleData && scheduleData.length >= 1) {
+            let rowData = scheduleData.map((data) => {
+                return (
+                    createScheduleData(data?.createdAt.substring(0, 10), data.name)
+                )
+            })
+            setSchedulesRows(rowData)
+        }
+    }, [scheduleData])
 
     return (
         <>
@@ -107,7 +155,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                         <div className="title">
                             All Colleges :
                         </div>
-                        <div className="add_icon" onClick={() => setSelectedTab(tabs[1])}>
+                        <div className="add_icon" onClick={() => setOpenNewInstituteModal(true)}>
                             <MdRateReview />
                         </div>
                     </div>
@@ -118,17 +166,15 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                     <TableRow>
                                         <StyledTableCell>Date</StyledTableCell>
                                         <StyledTableCell align="left">Name</StyledTableCell>
-                                        <StyledTableCell align="left">Details</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
+                                    {instituteRows.map((row) => (
                                         <StyledTableRow key={row.date}>
                                             <StyledTableCell component="th" scope="row">
                                                 {row.date}
                                             </StyledTableCell>
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
-                                            <StyledTableCell align="left">{row.details}</StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -156,7 +202,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
+                                    {schedulesRows.map((row) => (
                                         <StyledTableRow key={row.date}>
                                             <StyledTableCell component="th" scope="row">
                                                 {row.date}
@@ -171,6 +217,24 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                     </div>
                 </div>
             </div>
+            <Dialog
+                open={openNewInstituteModal}
+                onClose={handleCloseNewInstituteModal}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <div className="signup_container">
+                    <DialogTitle id="alert-dialog-title">
+                        {"Add New Institute"}
+                    </DialogTitle>
+                    <TextField
+                        value={newInstitute}
+                        placeholder="Institute"
+                        onChange={enteringNewInstitute}
+                    />
+                    <Button fullWidth className='btn' variant="contained" onClick={saveInstitute}> Save </Button>
+                </div>
+            </Dialog>
         </>
     )
 }

@@ -20,7 +20,7 @@ const About = () => {
                 <div className="about_box">
                     <div className="img_box">
                         <video controls >
-                            <source src={PromotionSectionData && PromotionSectionData.video ? PromotionSectionData.vide.link : VIDEO} type="video/mp4" />
+                            <source src={PromotionSectionData && PromotionSectionData.video ? PromotionSectionData.video?.link : VIDEO} type="video/mp4" />
                         </video>
                     </div>
                     <div className="detail_box">

@@ -1,28 +1,28 @@
 import React, { useState } from 'react'
 
 import Topbar from "../TabsBar/TopBar"
-import AddReview from './Components/AddReview/AddReview'
-import AllReviews from './Components/AllReviews/AllReviews'
+import AddSchedule from './Components/AddSchedule/AddSchedule'
+import AllSchedules from './Components/AllSchedules/AllSchedules'
 
-import "./ReviewSection.scss"
-
-
+import "./Scheduler.scss"
 
 
 
-let Tabs = ['All Reviews', 'Add Review']
-const ReviewSection = () => {
+
+
+let Tabs = ['All Reviews', 'Add Schedule']
+const Scheduler = () => {
     const [selectedTab, setSelectedTab] = useState('All Reviews')
 
     const currentComponent = (CTAB) => {
         switch (CTAB) {
             case Tabs[0]:
-                return <AllReviews tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
                 break;
             case Tabs[1]:
-                return <AddReview tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AddSchedule tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
                 break;
-                return <AllReviews tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
                 break;
         }
     }
@@ -37,4 +37,4 @@ const ReviewSection = () => {
     )
 }
 
-export default ReviewSection
+export default Scheduler
