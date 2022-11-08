@@ -3,7 +3,7 @@ import React from 'react'
 import Carousel from "react-multi-carousel"
 import "react-multi-carousel/lib/styles.css";
 
-import {ImQuotesLeft} from "react-icons/im"
+import { ImQuotesLeft } from "react-icons/im"
 
 import "./Rating.scss"
 
@@ -52,6 +52,9 @@ const responsive = {
     },
 };
 const Rating = () => {
+
+    const ReviewSectionData = useSelector((state) => state.ReviewSectionData)
+
     return (
         <>
             <div className="rating_container">
@@ -73,10 +76,11 @@ const Rating = () => {
                         dotListClass="custom-dot-list-style"
                         className="_carousel"
                     >
-                        {reviewData.map((data, index) => {
+
+                        {(ReviewSectionData && ReviewSectionData.length >= 1 ? ReviewSectionData : reviewData).map((data, index) => {
                             return (
                                 <div key={index} className="rating_crousal_box">
-                                    <div className="quot"><ImQuotesLeft/></div>
+                                    <div className="quot"><ImQuotesLeft /></div>
                                     <div className="details">{data.details}</div>
                                     <div className="name">{data.name}</div>
                                 </div>
