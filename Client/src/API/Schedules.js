@@ -120,7 +120,9 @@ const AddInstituteDataAPI = async (data) => {
         const res = await axios({
             url: "api/institute",
             method: 'POST',
-            data
+            data :{
+                name: data
+            }
         })
         resolved.data = res.data
     } catch (err) {

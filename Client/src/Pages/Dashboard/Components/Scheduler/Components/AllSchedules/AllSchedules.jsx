@@ -52,8 +52,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function createInstituteData(date, name) {
     return { date, name };
 }
-function createScheduleData(date, name) {
-    return { date, name };
+function createScheduleData(date, name, institute, time) {
+    return { date, name, institute, time };
 }
 
 const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
@@ -76,7 +76,30 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
         setOpenNewInstituteModal(false)
     }
     const saveInstitute = async () => {
-
+        const res = await AddInstituteDataAPI(newInstitute)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setOpenNewInstituteModal(false)
+            gettingInstituteData()
+        }
     }
 
     const gettingInstituteData = async () => {
@@ -208,7 +231,8 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                                 {row.date}
                                             </StyledTableCell>
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
-                                            <StyledTableCell align="left">{row.details}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.istitute}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.time}</StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
