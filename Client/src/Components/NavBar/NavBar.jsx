@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import { AiFillCaretRight } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa"
+import { HiMenu } from "react-icons/hi"
 
 import "./NavBar.scss"
 
@@ -10,14 +11,13 @@ import "./NavBar.scss"
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 // ***** mobile input ********
 
@@ -82,6 +82,7 @@ const OtpComponet = ({ enteredData, setEnteredData, login }) => {
     )
 }
 
+
 const NavBar = () => {
     let Navigate = useNavigate()
 
@@ -93,6 +94,8 @@ const NavBar = () => {
         otp: ""
     });
     const [position, setPosition] = useState("phone")
+
+    const [openSlider, setOpenSlider] = useState(false)
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -119,6 +122,29 @@ const NavBar = () => {
         setAnchorEl(null);
     };
 
+
+    const toggleDrawer = (open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+
+        setOpenSlider(open);
+    };
+    const MobileMenu = () => (
+        <Box
+            sx={{ width: 250 }}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
+          fljdlkfjslfjlksdjflskjd
+        </Box>
+    );
+
     const logOut = () => {
         localStorage.clear()
         window.location.href = "/"
@@ -129,7 +155,7 @@ const NavBar = () => {
             <div className="navbar_container">
                 <div className="navbar_box">
                     <div className="logo_box">
-                        <span>Call</span>Sheduler
+                        <span>IIT</span>Club
                     </div>
                     <div className="link_box">
                         <div className="links">
@@ -170,6 +196,9 @@ const NavBar = () => {
                             }
                         </div>
                     </div>
+                    <div className="mbl_menu_btn_box" onClick={toggleDrawer(true)}>
+                        <HiMenu />
+                    </div>
                 </div>
             </div>
             <div>
@@ -188,6 +217,14 @@ const NavBar = () => {
                         }
                     </div>
                 </Dialog>
+                <SwipeableDrawer
+                    anchor={"right"}
+                    open={openSlider}
+                    onClose={toggleDrawer(false)}
+                    onOpen={toggleDrawer(true)}
+                >
+                    <MobileMenu/>
+                </SwipeableDrawer>
             </div>
         </>
     )

@@ -19,9 +19,16 @@ const About = () => {
                 <div className="heading">ABOUT us</div>
                 <div className="about_box">
                     <div className="img_box">
-                        <video controls >
-                            <source src={PromotionSectionData && PromotionSectionData.video ? PromotionSectionData.video?.link : VIDEO} type="video/mp4" />
-                        </video>
+                        {
+                            PromotionSectionData &&
+                                <video controls >
+                                    <source src={PromotionSectionData?.video?.link} type="video/mp4" />
+                                </video>
+                                // :
+                                // <video controls >
+                                //     <source src={VIDEO} type="video/mp4" />
+                                // </video>
+                        }
                     </div>
                     <div className="detail_box">
                         <div className="title">

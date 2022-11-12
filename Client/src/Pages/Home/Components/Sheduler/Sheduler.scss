@@ -21,6 +21,10 @@
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
 
+        @media only screen and (max-width:1000px) {
+            width: 90%;
+        }
+
         .detail_box {
             display: flex;
             flex-direction: column;
@@ -39,17 +43,32 @@
             }
         }
 
-        .img_box {
+        .call_book_box {
             width: -webkit-fill-available;
             height: -webkit-fill-available;
             display: flex;
             justify-content: center;
+            flex-direction: column;
             align-items: center;
+            padding: 1rem 2rem;
+            gap: 1rem;
 
-            img {
-                width: 80%;
-                object-fit: cover;
+            .title{
+                text-transform: uppercase;
+                font-size: 1.5rem;
+                text-align: center;
             }
+            
+            .line{
+                width: -webkit-fill-available;
+                display: flex;
+                gap: 1rem;
+                
+                .input_box{
+                width: -webkit-fill-available;
+
+            }
+           }
         }
     }
 }

@@ -22,6 +22,10 @@
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
 
+        @media only screen and (max-width:1000px) {
+            width: 90%;
+        }
+
         .detail_box {
             display: flex;
             flex-direction: column;

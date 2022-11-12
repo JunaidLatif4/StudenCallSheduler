@@ -12,12 +12,15 @@ import { heroSectionAction } from "./GlobalStore/actions/heroSection"
 import { promotionSectionAction } from "./GlobalStore/actions/promotionSection"
 import { reviewSectionAction } from "./GlobalStore/actions/reviewSection"
 import { footerSectionAction } from "./GlobalStore/actions/footerSection"
+import { GetReviewDataAPI } from "./API/Reviews";
+import { scheduleAction } from "./GlobalStore/actions/scheduleAction";
+import { instituteAction } from "./GlobalStore/actions/instituteAction";
 import { GetFooterSectionDataAPI, GetHeroSectionDataAPI, GetPromotionSectionDataAPI } from "./API/CMS";
+import { GetInstitutesDataAPI, GetSchedulesDataAPI } from "./API/Schedules";
 
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
-import { GetReviewDataAPI } from "./API/Reviews";
 
 
 const Homeroute = () => {
@@ -68,12 +71,30 @@ const App = () => {
       dispatch(footerSectionAction(res.data.data))
     }
   }
+  const gettingSchedulerData = async () => {
+    const res = await GetSchedulesDataAPI()
+    if (res.error != null) {
+
+    } else {
+      dispatch(scheduleAction(res.data.data))
+    }
+  }
+  const gettingInstituteData = async () => {
+    const res = await GetInstitutesDataAPI()
+    if (res.error != null) {
+
+    } else {
+      dispatch(instituteAction(res.data.data))
+    }
+  }
 
   useEffect(() => {
     gettingHeroSectionData()
     gettingPromotionSectionData()
     gettingReviewSectionData()
     gettingFooterSectionData()
+    gettingInstituteData()
+    gettingSchedulerData()
   }, [])
   return (
     <>

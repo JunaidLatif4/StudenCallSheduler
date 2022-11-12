@@ -157,7 +157,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
         if (scheduleData && scheduleData.length >= 1) {
             let rowData = scheduleData.map((data) => {
                 return (
-                    createScheduleData(data?.createdAt.substring(0, 10), data.name)
+                    createScheduleData(data?.createdAt.substring(0, 10), data.name , data.institute , data.time)
                 )
             })
             setSchedulesRows(rowData)
@@ -221,7 +221,8 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                     <TableRow>
                                         <StyledTableCell>Date</StyledTableCell>
                                         <StyledTableCell align="left">Name</StyledTableCell>
-                                        <StyledTableCell align="left">Details</StyledTableCell>
+                                        <StyledTableCell align="left">Institute</StyledTableCell>
+                                        <StyledTableCell align="left">Time</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -231,8 +232,8 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                                 {row.date}
                                             </StyledTableCell>
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
-                                            <StyledTableCell align="left">{row.istitute}</StyledTableCell>
-                                            <StyledTableCell align="left">{row.time}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.institute?.name}</StyledTableCell>
+                                            <StyledTableCell align="left">{new Date(row.time).toLocaleDateString()} : {new Date(row.time).toLocaleTimeString()}</StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
