@@ -19,6 +19,9 @@ import { GetFooterSectionDataAPI, GetHeroSectionDataAPI, GetPromotionSectionData
 import { GetInstitutesDataAPI, GetSchedulesDataAPI } from "./API/Schedules";
 
 
+import { GetUserDetailsAPI } from "./API/Auth";
+import { userAction } from "./GlobalStore/actions/userAction";
+
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
@@ -39,6 +42,15 @@ const Homeroute = () => {
 const App = () => {
   let dispatch = useDispatch()
 
+  const gettingUserData = async ()=>{
+    const res = await GetUserDetailsAPI()
+    if (res.error != null) {
+      localStorage.clear()
+      // window.location.href = "/"
+    } else {
+      dispatch(userAction(res.data.data))
+    }
+  }
   const gettingHeroSectionData = async () => {
     const res = await GetHeroSectionDataAPI()
     if (res.error != null) {
@@ -95,6 +107,7 @@ const App = () => {
     gettingFooterSectionData()
     gettingInstituteData()
     gettingSchedulerData()
+    gettingUserData()
   }, [])
   return (
     <>

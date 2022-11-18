@@ -31,7 +31,9 @@ const ReviewSection = () => {
         <>
             <div className="review_section_container">
                 <Topbar selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={Tabs} />
+                <div className="review_section_box">
                 {currentComponent(selectedTab)}
+                </div>
             </div>
         </>
     )

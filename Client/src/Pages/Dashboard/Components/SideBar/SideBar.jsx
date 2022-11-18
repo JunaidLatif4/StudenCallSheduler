@@ -33,9 +33,9 @@ const SideBar = () => {
                         <AiFillSchedule className='icon' />
                         <p>Schedules</p>
                     </div>
-                    <div className="link" onClick={() => history("/dashboard/addproduct")}>
+                    <div className="link" onClick={() => history("/dashboard/booking")}>
                         <GiCartwheel className='icon' />
-                        <p>Add Spareparts</p>
+                        <p>Bookings</p>
                     </div>
                 </div>
             </div>

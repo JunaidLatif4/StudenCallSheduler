@@ -5,10 +5,7 @@ import { AiFillCaretRight } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa"
 import { HiMenu } from "react-icons/hi"
 
-import "./NavBar.scss"
-
 // ***** mui modal ********
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -20,11 +17,13 @@ import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 // ***** mobile input ********
-
-
 import PhoneInput from 'react-phone-input-2'
-// import 'react-phone-input-2/lib/style.css'
 import 'react-phone-input-2/lib/bootstrap.css'
+
+import { toast } from 'react-toastify';
+import { GenrateOtoAPI, VerifyOtpAPI } from '../../API/Auth';
+
+import "./NavBar.scss"
 
 
 
@@ -105,14 +104,59 @@ const NavBar = () => {
         setOpen(false);
     };
 
-    const genrateOtp = () => {
-        setPosition("otp")
+    const genrateOtp = async () => {
+        let res = await GenrateOtoAPI(enteredData)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setPosition("otp")
+        }
     }
-    const login = () => {
-        localStorage.setItem("token", "temp_token")
-        window.location.href = "/"
+    const login = async () => {
+        let res = await VerifyOtpAPI(enteredData)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            localStorage.setItem("token", res.data.token)
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
+        }
     }
-
 
     const openMenu = Boolean(anchorEl);
     const handleClickMenu = (event) => {
@@ -141,7 +185,7 @@ const NavBar = () => {
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
         >
-          fljdlkfjslfjlksdjflskjd
+            fljdlkfjslfjlksdjflskjd
         </Box>
     );
 
@@ -223,7 +267,7 @@ const NavBar = () => {
                     onClose={toggleDrawer(false)}
                     onOpen={toggleDrawer(true)}
                 >
-                    <MobileMenu/>
+                    <MobileMenu />
                 </SwipeableDrawer>
             </div>
         </>

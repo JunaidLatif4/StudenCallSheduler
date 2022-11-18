@@ -1,18 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Button, TextField } from "@mui/material"
 import Autocomplete from '@mui/material/Autocomplete';
 import { alpha, styled } from '@mui/material/styles';
 
-import { AiFillCaretRight } from "react-icons/ai";
-import IMG from "../../../../Assets/img.png"
 
+import { AddBookingDataAPI } from "../../../../API/Booking"
 import { useSelector } from "react-redux"
+import { toast } from 'react-toastify';
 
 import "./Sheduler.scss"
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 
 
 
@@ -47,13 +44,16 @@ const CssTextField = styled(TextField)({
 
 const Sheduler = () => {
 
+    const UserData = useSelector((state) => state.UserData)
     const InstituteData = useSelector((state) => state.InstituteData)
     const ScheduleData = useSelector((state) => state.ScheduleData)
 
     const [currentSchedules, setCurrentSchedule] = useState([])
 
     const [enteredData, setEnteredData] = useState({
-        schedule: ""
+        name: "",
+        number: "",
+        shedule: ""
     })
 
     const [enteredInstitute, setEnteredInstitute] = useState()
@@ -64,14 +64,32 @@ const Sheduler = () => {
     }
     const enteringSchedule = (event, newVal) => {
         setEnteredSchedule(newVal)
-        setEnteredData({
-            schedule: newVal._id
+        setEnteredData((preVal) => {
+            return {
+                ...preVal,
+                shedule: newVal._id
+            }
         })
     }
 
-    const saveBooking =()=>{
-        setTimeout(() => {
-            toast.success("Call Sheduled Success", {
+    const enteringData = (event) => {
+        let { name, value } = event.target;
+        setEnteredData((preVal) => {
+            return {
+                ...preVal,
+                [name]: value
+            }
+        })
+    }
+
+    const saveBooking = async () => {
+        let data = {
+            ...enteredData,
+            user: UserData._id
+        }
+        let res = await AddBookingDataAPI(data)
+        if (res.error != null) {
+            toast.error(res.error, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -80,15 +98,25 @@ const Sheduler = () => {
                 draggable: true,
                 progress: undefined,
             });
-        }, 1000);
-        setTimeout(() => {
-            window.location.href=""
-        }, 2000);
+        } else {
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setTimeout(() => {
+                window.location.href = ""
+            }, 2000);
+        }
     }
 
     useEffect(() => {
         if (enteredInstitute) {
-            const allSchedules = ScheduleData.filter((data) => data.institute._id == enteredInstitute._id)
+            const allSchedules = ScheduleData.filter((data) => data.institute._id == enteredInstitute._id && data.filledSeats < data.totalSeats)
             setCurrentSchedule(allSchedules)
         }
     }, [enteredInstitute])
@@ -133,19 +161,7 @@ const Sheduler = () => {
                                     id="combo-box-demo"
                                     value={enteredSchedule}
                                     options={currentSchedules}
-                                    getOptionLabel={(option) => {
-                                        return (
-                                            <>
-                                                {
-                                                    new Date(option?.time).toLocaleDateString()
-                                                }
-                                                &nbsp; || &nbsp;
-                                                {
-                                                    new Date(option?.time).toLocaleTimeString()
-                                                }
-                                            </>
-                                        )
-                                    }}
+                                    getOptionLabel={(option) => `${new Date(option?.time).toLocaleDateString()} || ${new Date(option?.time).toLocaleTimeString()}`}
                                     fullWidth
                                     onChange={(event, newValue) => enteringSchedule(event, newValue)}
                                     renderInput={(params) => <CssTextField {...params} variant="filled" label="Select Time" />}
@@ -154,18 +170,16 @@ const Sheduler = () => {
                         </div>
                         <div className="line">
                             <div className="input_box">
-                                <CssTextField variant='filled' fullWidth label="Name" />
+                                <CssTextField variant='filled' fullWidth label="Name" name='name' value={enteredData.name} onChange={enteringData} />
                             </div>
                         </div>
                         <div className="line">
                             <div className="input_box">
-                                <CssTextField variant='filled' fullWidth label="Number" />
+                                <CssTextField variant='filled' fullWidth label="Number" name='number' value={enteredData.number} onChange={enteringData} />
                             </div>
                         </div>
                         <div className="line">
-                            {/* <div className="btn_box"> */}
                             <Button style={{ backgroundColor: "#3A56F1", color: "black" }} fullWidth onClick={saveBooking}> Book </Button>
-                            {/* </div> */}
                         </div>
                     </div>
                 </div>

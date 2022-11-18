@@ -7,8 +7,10 @@ import ReviewSectionData from "./reducrs/review";
 import FooterSectionData from "./reducrs/footer";
 import InstituteData from "./reducrs/institute";
 import ScheduleData from "./reducrs/schedule";
+import UserData from "./reducrs/user";
 
 const allReducers = combineReducers({
+    UserData,
     HeroSectionData,
     PromotionSectionData,
     ReviewSectionData,

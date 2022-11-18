@@ -18,14 +18,17 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 import { AddScheduleDataAPI, GetInstitutesDataAPI, UpdateScheduleDataAPI } from "../../../../../../API/Schedules";
 import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
 
 
 
 
 
-const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
+const AddSchedule = ({ tabs, selectedTab, setSelectedTab, scheduleId, setScheduleId }) => {
     let Navigate = useNavigate()
     let location = useLocation()
+
+    let ScheduleData = useSelector((state) => state.ScheduleData)
 
     const [fullPageLoading, setFullPageLoading] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -35,9 +38,10 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
     const [enteredData, setEnteredData] = useState({
         name: '',
         institute: "",
+        totalSeats: '',
         time: null
     })
-    const [enteredInstitute, setEnteredInstitute] = useState()
+    const [enteredInstitute, setEnteredInstitute] = useState(null)
     const [value, setValue] = useState(dayjs('2022-04-07'));
 
     const enteringData = (event) => {
@@ -75,8 +79,8 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
         let res;
         let data = enteredData
 
-        if (data._id) {
-            res = await UpdateScheduleDataAPI(data._id, data)
+        if (scheduleId) {
+            res = await UpdateScheduleDataAPI(scheduleId, data)
             if (res.error != null) {
                 toast.error(res.error, {
                     position: "top-right",
@@ -97,7 +101,9 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
                     draggable: true,
                     progress: undefined,
                 });
-                setSelectedTab(tabs[0])
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000);
             }
         } else {
             res = await AddScheduleDataAPI(data)
@@ -121,7 +127,9 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
                     draggable: true,
                     progress: undefined,
                 });
-                setSelectedTab(tabs[0])
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000);
             }
         }
         setLoading(false)
@@ -147,6 +155,23 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
     }
     useEffect(() => {
         gettingInstituteData()
+    }, [])
+    useEffect(() => {
+        if (scheduleId) {
+            setFullPageLoading(true)
+            let findSchedule = ScheduleData.find((data) => data._id == scheduleId)
+            if (findSchedule) {
+                setEnteredData({
+                    name: findSchedule?.name,
+                    totalSeats: findSchedule?.totalSeats,
+                    institute: findSchedule?.institute?._id,
+                    time: findSchedule?.time
+                })
+                setEnteredInstitute(findSchedule?.institute)
+                setValue(dayjs(findSchedule?.time))
+            }
+        }
+        setFullPageLoading(false)
     }, [])
 
     return (
@@ -180,12 +205,15 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab }) => {
                     <div className="interior_input">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
-                                renderInput={(props) => <TextField {...props} />}
+                                renderInput={(props) => <TextField {...props} fullWidth />}
                                 label="DateTimePicker"
                                 value={value}
                                 onChange={enteringTime}
                             />
                         </LocalizationProvider>
+                    </div>
+                    <div className="interior_input">
+                        <TextField fullWidth id="filled-basic" type="number" label="Total Seats :" variant="filled" name="totalSeats" onChange={enteringData} value={enteredData.totalSeats} />
                     </div>
                 </div>
                 <div className="btn_sec">

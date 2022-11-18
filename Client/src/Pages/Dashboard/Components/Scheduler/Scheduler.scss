@@ -1,3 +1,7 @@
-.review_section_container{
-    
+.review_section_container {
+    .review_section_box {
+        padding-bottom: 30px;
+        height: calc(100vh - 67px);
+        overflow: scroll;
+    }
 }

@@ -11,6 +11,7 @@ const AuthRoute = require("./Routes/authRoutes");
 const CMSRoute = require("./Routes/cmsRoutes");
 const InstituteRoute = require("./Routes/instituteRoutes");
 const ScheduleRoute = require("./Routes/scheduleRoutes");
+const BookingRoute = require("./Routes/bookingRoutes");
 
 let app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/auth", AuthRoute)
 app.use("/api/cms", CMSRoute)
 app.use("/api/institute", InstituteRoute)
 app.use("/api/schedule", ScheduleRoute)
+app.use("/api/booking", BookingRoute)
 
 app.all("*", (req, res, next) =>
     next(new AppError(`can't find ${req.originalUrl} on this server`, 404))

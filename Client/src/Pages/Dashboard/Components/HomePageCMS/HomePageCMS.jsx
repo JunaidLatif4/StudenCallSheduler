@@ -40,7 +40,9 @@ const currentComponent = (CTAB) => {
 <div className='home_page_cms_container'>
 
 <Topbar selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={Tabs} />
+<div className="home_page_cms_box">
 {currentComponent(selectedTab)}
+</div>
 </div>
 </>
   )

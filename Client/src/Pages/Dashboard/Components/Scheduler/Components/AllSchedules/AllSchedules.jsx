@@ -11,15 +11,13 @@ import Paper from '@mui/material/Paper';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { MdRateReview } from "react-icons/md"
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"
 
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField, Button } from '@mui/material';
 
-import { GetInstitutesDataAPI, AddInstituteDataAPI, GetSchedulesDataAPI } from "../../../../../../API/Schedules";
+import { GetInstitutesDataAPI, AddInstituteDataAPI, GetSchedulesDataAPI, DeleteInstituteDataAPI, DeleteScheduleDataAPI } from "../../../../../../API/Schedules";
 import { toast } from "react-toastify"
 
 import "./AllSchedules.scss"
@@ -49,14 +47,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function createInstituteData(date, name) {
-    return { date, name };
+function createInstituteData(date, name, id) {
+    return { date, name, id };
 }
-function createScheduleData(date, name, institute, time) {
-    return { date, name, institute, time };
+function createScheduleData(date, name, institute, totalSeats, filledSeats, time, id) {
+    return { date, name, institute, totalSeats, filledSeats, time, id };
 }
 
-const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
+const AllReviews = ({ tabs, selectedTab, setSelectedTab, setScheduleId }) => {
 
     const [fullPageLoading, setFullPageLoading] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -102,6 +100,66 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
         }
     }
 
+    const DeleteInstitute = async (id) => {
+        setFullPageLoading(true)
+        const res = await DeleteInstituteDataAPI(id)
+        setFullPageLoading(false)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            gettingInstituteData()
+        }
+    }
+    const DeleteShedule = async (id) => {
+        setFullPageLoading(true)
+        const res = await DeleteScheduleDataAPI(id)
+        setFullPageLoading(false)
+        if (res.error != null) {
+            toast.error(res.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            toast.success(res.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            gettingSchedulesData()
+        }
+    }
+
+    const EditSchedule = async (id) => {
+        setScheduleId(id)
+        setSelectedTab(tabs[1])
+    }
+
     const gettingInstituteData = async () => {
         setFullPageLoading(true)
         const res = await GetInstitutesDataAPI()
@@ -140,6 +198,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
     }
 
     useEffect(() => {
+        setScheduleId(null)
         gettingInstituteData()
         gettingSchedulesData()
     }, [])
@@ -147,7 +206,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
         if (instituteData && instituteData.length >= 1) {
             let rowData = instituteData.map((data) => {
                 return (
-                    createInstituteData(data?.createdAt.substring(0, 10), data.name)
+                    createInstituteData(data?.createdAt.substring(0, 10), data.name, data._id)
                 )
             })
             setInstituteRows(rowData)
@@ -157,7 +216,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
         if (scheduleData && scheduleData.length >= 1) {
             let rowData = scheduleData.map((data) => {
                 return (
-                    createScheduleData(data?.createdAt.substring(0, 10), data.name , data.institute , data.time)
+                    createScheduleData(data?.createdAt.substring(0, 10), data.name, data.institute, data.totalSeats, data.filledSeats, data.time, data._id)
                 )
             })
             setSchedulesRows(rowData)
@@ -189,6 +248,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                     <TableRow>
                                         <StyledTableCell>Date</StyledTableCell>
                                         <StyledTableCell align="left">Name</StyledTableCell>
+                                        <StyledTableCell align="right">Delete</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -198,6 +258,7 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                                 {row.date}
                                             </StyledTableCell>
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
+                                            <StyledTableCell align="right"><AiFillDelete onClick={() => DeleteInstitute(row.id)} /></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -222,7 +283,10 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                         <StyledTableCell>Date</StyledTableCell>
                                         <StyledTableCell align="left">Name</StyledTableCell>
                                         <StyledTableCell align="left">Institute</StyledTableCell>
+                                        <StyledTableCell align="left">Total Seats</StyledTableCell>
+                                        <StyledTableCell align="left">Filled Seats</StyledTableCell>
                                         <StyledTableCell align="left">Time</StyledTableCell>
+                                        <StyledTableCell align="right">Actions</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -233,7 +297,10 @@ const AllReviews = ({ tabs, selectedTab, setSelectedTab }) => {
                                             </StyledTableCell>
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
                                             <StyledTableCell align="left">{row.institute?.name}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.totalSeats}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.filledSeats}</StyledTableCell>
                                             <StyledTableCell align="left">{new Date(row.time).toLocaleDateString()} : {new Date(row.time).toLocaleTimeString()}</StyledTableCell>
+                                            <StyledTableCell align="right"><div className="action_box"><AiFillEdit className='icon' onClick={() => EditSchedule(row.id)} /><AiFillDelete className='icon' onClick={() => DeleteShedule(row.id)} /></div> </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>

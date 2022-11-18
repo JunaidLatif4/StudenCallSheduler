@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Topbar from "../TabsBar/TopBar"
 import AddSchedule from './Components/AddSchedule/AddSchedule'
@@ -13,16 +13,17 @@ import "./Scheduler.scss"
 let Tabs = ['All Reviews', 'Add Schedule']
 const Scheduler = () => {
     const [selectedTab, setSelectedTab] = useState('All Reviews')
+    const [scheduleId, setScheduleId] = useState(null)
 
     const currentComponent = (CTAB) => {
         switch (CTAB) {
             case Tabs[0]:
-                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} setScheduleId={setScheduleId} />
                 break;
             case Tabs[1]:
-                return <AddSchedule tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AddSchedule tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} scheduleId={scheduleId} setScheduleId={setScheduleId} />
                 break;
-                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                return <AllSchedules tabs={Tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} setScheduleId={setScheduleId} />
                 break;
         }
     }
@@ -31,7 +32,9 @@ const Scheduler = () => {
         <>
             <div className="review_section_container">
                 <Topbar selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={Tabs} />
-                {currentComponent(selectedTab)}
+                <div className="review_section_box">
+                    {currentComponent(selectedTab)}
+                </div>
             </div>
         </>
     )
