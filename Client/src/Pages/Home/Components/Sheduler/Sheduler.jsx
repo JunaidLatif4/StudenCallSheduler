@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+
+// import useRazorPay from "react-razorpay"
 
 import { Button, TextField } from "@mui/material"
 import Autocomplete from '@mui/material/Autocomplete';
@@ -43,6 +45,8 @@ const CssTextField = styled(TextField)({
 });
 
 const Sheduler = () => {
+    // let razor = useRazorPay()
+
 
     const UserData = useSelector((state) => state.UserData)
     const InstituteData = useSelector((state) => state.InstituteData)
@@ -82,14 +86,59 @@ const Sheduler = () => {
         })
     }
 
-    const saveBooking = async () => {
-        let data = {
-            ...enteredData,
-            user: UserData._id
-        }
-        let res = await AddBookingDataAPI(data)
-        if (res.error != null) {
-            toast.error(res.error, {
+    const saveBooking = () => {
+        const options = {
+            key: "rzp_test_rRRSC5zUGayRAK",
+            amount: "20000",
+            currency: "INR",
+            name: "IIT Club",
+            description: "Test Transaction",
+            handler: async (response) => {
+                console.log(response);
+                let data = {
+                    ...enteredData,
+                    user: UserData._id
+                }
+                let res = await AddBookingDataAPI(data)
+                if (res.error != null) {
+                    toast.error(res.error, {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                } else {
+                    toast.success(res.data.message, {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    setTimeout(() => {
+                        window.location.href = ""
+                    }, 2000);
+                }
+            },
+            prefill: {
+                  name: enteredData.name,
+                //   email: "youremail@example.com",
+                contact: enteredData.number,
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on("payment.failed", function (response) {
+            console.log("---------RAZOR ERROR -----------", response);
+            toast.error("Payment Failed", {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -98,20 +147,8 @@ const Sheduler = () => {
                 draggable: true,
                 progress: undefined,
             });
-        } else {
-            toast.success(res.data.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            setTimeout(() => {
-                window.location.href = ""
-            }, 2000);
-        }
+        });
+        rzp.open()
     }
 
     useEffect(() => {
