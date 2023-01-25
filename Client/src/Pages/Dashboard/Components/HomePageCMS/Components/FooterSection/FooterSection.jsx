@@ -27,6 +27,7 @@ const FooterSection = () => {
     twitter: '',
     facebook: "",
     linkdin: "",
+    apiKey:"",
   })
 
 
@@ -148,6 +149,9 @@ const FooterSection = () => {
           </div>
           <div className="interior_input">
             <TextField fullWidth id="filled-basic" label="LinkdIn Link :" variant="filled" name="linkdin" onChange={enteringData} value={enteredData.linkdin} />
+          </div>
+          <div className="interior_input">
+            <TextField fullWidth id="filled-basic" label="RazorPay API KEY :" variant="filled" name="apiKey" onChange={enteringData} value={enteredData.apiKey} />
           </div>
         </div>
         <div className="btn_sec">

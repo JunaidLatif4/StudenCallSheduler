@@ -23,7 +23,7 @@ import { useSelector } from "react-redux"
 
 
 
-
+let LanguagesList = ["English", "Hindi", "Telgu"]
 const AddSchedule = ({ tabs, selectedTab, setSelectedTab, scheduleId, setScheduleId }) => {
     let Navigate = useNavigate()
     let location = useLocation()
@@ -39,6 +39,7 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab, scheduleId, setSchedul
         name: '',
         institute: "",
         totalSeats: '',
+        language: ["English"],
         time: null
     })
     const [enteredInstitute, setEnteredInstitute] = useState(null)
@@ -200,6 +201,18 @@ const AddSchedule = ({ tabs, selectedTab, setSelectedTab, scheduleId, setSchedul
                             fullWidth
                             onChange={(event, newValue) => enteringInstitute(event, newValue)}
                             renderInput={(params) => <TextField {...params} label="Select Institute" />}
+                        />
+                    </div>
+                    <div className="interior_input">
+                        <Autocomplete
+                            disablePortal
+                            multiple
+                            id="combo-box-demo"
+                            value={enteredData.language}
+                            options={LanguagesList}
+                            fullWidth
+                            onChange={(event, newValue) => enteringData({ target: { name: "language", value: newValue } })}
+                            renderInput={(params) => <TextField {...params} label="Select Language" />}
                         />
                     </div>
                     <div className="interior_input">

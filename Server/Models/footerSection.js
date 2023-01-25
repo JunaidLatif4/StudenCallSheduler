@@ -14,6 +14,9 @@ const footerSectionSchema = new mongoose.Schema({
     linkdin: {
         type: String,
     },
+    apiKey:{
+        type:String,
+    }
 
 }, { timestamps: true });
 

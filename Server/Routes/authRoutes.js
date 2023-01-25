@@ -86,8 +86,8 @@ Router.post("/otp/genrate", async (req, res) => {
     let { phone } = req.body;
     try {
         let code = Math.floor(1000 + Math.random() * 9000);
-        let otpRes = await axios.get(`https://2factor.in/API/V1/${process.env.OTP_KEY}/SMS/+916303327018/${code}/OTP`)
-        console.log(otpRes);
+        // let otpRes = await axios.get(`https://2factor.in/API/V1/${process.env.OTP_KEY}/SMS/+${phone}/${code}/OTP`)
+        // console.log(otpRes);
         console.log(code);
         const findUser = await UserModal.findOne({ phone: phone })
         if (findUser) {

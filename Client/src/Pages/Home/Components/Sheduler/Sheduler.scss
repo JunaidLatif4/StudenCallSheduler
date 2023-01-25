@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: 5rem;
     padding: 2rem;
-    height: calc(100vh - 107px);
+    min-height: calc(100vh - 107px);
     box-sizing: border-box;
 
     .heading {

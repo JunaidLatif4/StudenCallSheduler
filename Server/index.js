@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -19,6 +20,7 @@ let app = express();
 
 app.use(express.json());
 app.use("/public", express.static("public"))
+app.use(express.static("build"))
 app.use(cors({
     origin: "*"
 }));
@@ -36,6 +38,10 @@ app.use("/api/cms", CMSRoute)
 app.use("/api/institute", InstituteRoute)
 app.use("/api/schedule", ScheduleRoute)
 app.use("/api/booking", BookingRoute)
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+  });
 
 app.all("*", (req, res, next) =>
     next(new AppError(`can't find ${req.originalUrl} on this server`, 404))

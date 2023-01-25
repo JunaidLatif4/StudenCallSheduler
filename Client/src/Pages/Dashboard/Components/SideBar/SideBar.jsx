@@ -18,7 +18,7 @@ const SideBar = () => {
         <>
             <div className="sidebar_container">
                 <div className="logo_box" onClick={() => history("/")}>
-                    <img src={Logo} alt="" />
+                    <span>IIT</span>Club
                 </div>
                 <div className="links_box">
                     <div className="link" onClick={() => history("/dashboard")}>

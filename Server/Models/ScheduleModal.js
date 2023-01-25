@@ -17,6 +17,10 @@ const scheduleSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    language: {
+        type: Array,
+        default: ["English"]
+    },
     time: {
         type: Date,
         default: Date.now()

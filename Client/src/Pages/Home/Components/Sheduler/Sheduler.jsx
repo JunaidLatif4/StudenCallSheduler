@@ -44,6 +44,8 @@ const CssTextField = styled(TextField)({
     },
 });
 
+let languages = ["English", "Hindi", "Telgu"]
+
 const Sheduler = () => {
     // let razor = useRazorPay()
 
@@ -51,13 +53,15 @@ const Sheduler = () => {
     const UserData = useSelector((state) => state.UserData)
     const InstituteData = useSelector((state) => state.InstituteData)
     const ScheduleData = useSelector((state) => state.ScheduleData)
+    const FooterData = useSelector((state) => state.FooterData)
 
     const [currentSchedules, setCurrentSchedule] = useState([])
 
     const [enteredData, setEnteredData] = useState({
         name: "",
         number: "",
-        shedule: ""
+        shedule: "",
+        language: ""
     })
 
     const [enteredInstitute, setEnteredInstitute] = useState()
@@ -88,7 +92,7 @@ const Sheduler = () => {
 
     const saveBooking = () => {
         const options = {
-            key: "rzp_test_rRRSC5zUGayRAK",
+            key: process.env.REACT_APP_RAZOR_KEY || FooterData.apiKey,
             amount: "20000",
             currency: "INR",
             name: "IIT Club",
@@ -126,7 +130,7 @@ const Sheduler = () => {
                 }
             },
             prefill: {
-                  name: enteredData.name,
+                name: enteredData.name,
                 //   email: "youremail@example.com",
                 contact: enteredData.number,
             },
@@ -157,7 +161,7 @@ const Sheduler = () => {
             setCurrentSchedule(allSchedules)
         }
     }, [enteredInstitute])
-
+    console.log("******************", currentSchedules);
     return (
         <>
             <div className="sheduler_container">
@@ -202,6 +206,19 @@ const Sheduler = () => {
                                     fullWidth
                                     onChange={(event, newValue) => enteringSchedule(event, newValue)}
                                     renderInput={(params) => <CssTextField {...params} variant="filled" label="Select Time" />}
+                                />
+                            </div>
+                        </div>
+                        <div className="line">
+                            <div className="input_box">
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box-demo"
+                                    value={enteredData.language}
+                                    options={enteredSchedule?.language || languages}
+                                    fullWidth
+                                    onChange={(event, newValue) => enteringData({ target: { name: "language", value: newValue } })}
+                                    renderInput={(params) => <CssTextField {...params} variant="filled" label="Select Language" />}
                                 />
                             </div>
                         </div>

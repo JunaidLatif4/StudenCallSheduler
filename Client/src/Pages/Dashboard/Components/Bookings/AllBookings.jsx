@@ -42,8 +42,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function createBookingsData(date, name, shedule, institute, time, number) {
-    return { date, name, shedule, institute, time, number };
+function createBookingsData(date, name, shedule, institute, language, time, number) {
+    return { date, name, shedule, institute, language, time, number };
 }
 
 const AllBookings = ({ tabs, selectedTab, setSelectedTab }) => {
@@ -80,7 +80,7 @@ const AllBookings = ({ tabs, selectedTab, setSelectedTab }) => {
         if (bookingsData && bookingsData.length >= 1) {
             let rowData = bookingsData.map((data) => {
                 return (
-                    createBookingsData(data?.createdAt.substring(0, 10), data.name, data?.shedule?.name, data?.shedule?.institute?.name, `${new Date(data.shedule?.time).toLocaleDateString()} || ${new Date(data.shedule?.time).toLocaleTimeString()}`, data.number)
+                    createBookingsData(data?.createdAt.substring(0, 10), data.name, data?.shedule?.name, data?.shedule?.institute?.name, data.language, `${new Date(data.shedule?.time).toLocaleDateString()} || ${new Date(data.shedule?.time).toLocaleTimeString()}`, data.number)
                 )
             })
             setBookingsRow(rowData)
@@ -111,6 +111,7 @@ const AllBookings = ({ tabs, selectedTab, setSelectedTab }) => {
                                         <StyledTableCell align="left">Name</StyledTableCell>
                                         <StyledTableCell align="left">Shedule</StyledTableCell>
                                         <StyledTableCell align="left">Institute</StyledTableCell>
+                                        <StyledTableCell align="left">Language</StyledTableCell>
                                         <StyledTableCell align="left">Call Time</StyledTableCell>
                                         <StyledTableCell align="left">Number</StyledTableCell>
                                     </TableRow>
@@ -124,6 +125,7 @@ const AllBookings = ({ tabs, selectedTab, setSelectedTab }) => {
                                             <StyledTableCell align="left">{row.name}</StyledTableCell>
                                             <StyledTableCell align="left">{row.shedule}</StyledTableCell>
                                             <StyledTableCell align="left">{row.institute}</StyledTableCell>
+                                            <StyledTableCell align="left">{row.language}</StyledTableCell>
                                             <StyledTableCell align="left">{row.time}</StyledTableCell>
                                             <StyledTableCell align="left">{row.number}</StyledTableCell>
                                         </StyledTableRow>

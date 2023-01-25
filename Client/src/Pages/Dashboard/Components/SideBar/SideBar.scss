@@ -20,11 +20,17 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        font-size: 2rem;
 
         img {
             width: 75px;
             height: 90px;
             object-fit: cover;
+        }
+
+
+        span {
+            color: #3A56F1;
         }
 
     }

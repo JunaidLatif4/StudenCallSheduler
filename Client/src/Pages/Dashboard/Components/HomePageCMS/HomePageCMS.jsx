@@ -6,7 +6,7 @@ import HeroSection from './Components/HeroSection/HeroSection'
 import PromotionSection from './Components/PromotionSection/PromotionSection'
 
 
-let Tabs = ['Hero Section','Promotion Section','Footer Section']
+let Tabs = ['Hero Section','Promotion Section','Footer Section / API KEY']
 
 
 
